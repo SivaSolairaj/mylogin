@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<!-- Website - www.codingnepalweb.com -->
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content=" Today in this blog you will learn how to create a responsive Login & Registration Form in HTML CSS & JavaScript. The blog will cover everything from the basics of creating a Login & Registration in HTML, to styling it with CSS and adding with JavaScript." />
+    <meta
+      name="keywords"
+      content=" 
+ Animated Login & Registration Form,Form Design,HTML and CSS,HTML CSS JavaScript,login & registration form,login & signup form,Login Form Design,registration form,Signup Form,HTML,CSS,JavaScript,
+"
+    />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Login & Signup Form</title>
+    <link rel="stylesheet" href="login.css" />
+    <script src="../custom-scripts.js" defer></script>
+  </head>
+  <body>
+    <section class="wrapper">
+      <div class="form signup">
+        <header>Signup</header>
+        <form action="#">
+          <input type="text" id="username" name="username" placeholder="username" required />
+          <input type="text" id="email" name="email" placeholder="Email address" required />
+          <input type="password" id="password" name="password" placeholder="Password" required />
+          <div class="checkbox">
+            <input type="checkbox" id="signupCheck" />
+            <label for="signupCheck">I accept all terms & conditions</label>
+          </div>
+          <input type="submit" id="signup" name="signup" value="Signup" />
+        </form>
+      </div>
+
+      <div class="form login">
+        <header>Login</header>
+        <form action="#">
+          <input type="text" placeholder="Email address" required />
+          <input type="password" placeholder="Password" required />
+          <a href="#">Forgot password?</a>
+          <input type="submit" id="login" name="login" value="Login" />
+        </form>
+      </div>
+
+      <script>
+        const wrapper = document.querySelector(".wrapper"),
+          signupHeader = document.querySelector(".signup header"),
+          loginHeader = document.querySelector(".login header");
+
+        loginHeader.addEventListener("click", () => {
+          wrapper.classList.add("active");
+        });
+        signupHeader.addEventListener("click", () => {
+          wrapper.classList.remove("active");
+        });
+      </script>
+    </section>
+  </body>
+  <script type="module">
+	// Import the functions you need from the SDKs you need
+	import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
+	import { getDatabase, set, ref, update } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
+	import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js";
+	// TODO: Add SDKs for Firebase products that you want to use
+	// https://firebase.google.com/docs/web/setup#available-libraries
+  
+	// Your web app's Firebase configuration
+	const firebaseConfig = {
+	  apiKey: "AIzaSyAs_mrk3uQcxeWvCNAVqtc-QdlDk-yFAEo",
+	  authDomain: "aarthisweets-23d53.firebaseapp.com",
+	  databaseURL: "https://aarthisweets-23d53-default-rtdb.firebaseio.com",
+	  projectId: "aarthisweets-23d53",
+	  storageBucket: "aarthisweets-23d53.appspot.com",
+	  messagingSenderId: "503477680052",
+	  appId: "1:503477680052:web:60017b63c51085e91624e1"
+	};
+  
+	// Initialize Firebase
+	const app = initializeApp(firebaseConfig);
+	const database = getDatabase(app);
+	const auth = getAuth();
+
+	signup.addEventListener('click', (e) => {
+
+		var email = document.getElementById('email').value;
+		var password = document.getElementById('password').value;
+		var username = document.getElementById('username').value;
+
+
+		createUserWithEmailAndPassword(auth, email, password)
+  		.then((userCredential) => {
+    // Signed up 
+    const user = userCredential.user;
+			set(ref(database, 'users/' + user.uid),{
+				username: username,
+				email: email
+			})
+
+	alert('user created!');
+    // ...
+  })
+  .catch((error) => {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+	<!-- alert('errorMessage'); -->
+    // ..
+  });
+
+	})
+
+	login.addEventListener('click', (e) => {
+
+		var email = document.getElementById('email').value;
+		var password = document.getElementById('password').value;
+
+		signInWithEmailAndPassword(auth, email, password)
+  		.then((userCredential) => {
+    // Signed in 
+    const user = userCredential.user;
+		const dt = new Date();
+		update(ref(database, 'users/' + user.uid),{
+		last_login: dt,
+	})
+		alert('User loggedin!')
+    // ...
+  })
+  .catch((error) => {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+  });
+
+
+	})
+
+  </script>
+
+</html>
