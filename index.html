@@ -95,7 +95,7 @@
       createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
 
-        sendEmailverification(auth.currentuser)
+      sendEmailVerification(auth.currentUser)
           .then (() => {
             alert("Email Verification link send");
           })
