@@ -16,6 +16,14 @@
     <title>Login & Signup Firebase </title>
     <link rel="stylesheet" href="login.css" />
     <!-- <script src="../custom-scripts.js" defer></script> -->
+
+    <!-- Import Firebase JS -->
+<script src="https://www.gstatic.com/firebasejs/3.2.1/firebase.js"></script>
+
+<!-- Import Firebase Authentication-->
+<script src="https://www.gstatic.com/firebasejs/ui/live/0.4/firebase-ui-auth.js"></script>
+<link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/live/0.4/firebase-ui-auth.css" />
+
   </head>
   <body>
     <section class="wrapper">
@@ -36,8 +44,8 @@
       <div class="form login">
         <header>Login</header>
         <form action="#">
-          <input type="text" placeholder="Email address" required />
-          <input type="password" placeholder="Password" required />
+          <input type="email" id="email1" name="email" placeholder="Email address" required />
+          <input type="password" id="password1" name="password" placeholder="Password" required />
           <a href="#">Forgot password?</a>
           <input type="submit" id="login" name="login"  value="Login" />
         </form>
@@ -55,10 +63,10 @@
           wrapper.classList.remove("active");
         });
       </script>
-      <!-- <div class="Credentiials">
-          <h3>link:</h3><h5 id="link">none</h5>
+      <div class="Credentials">
+          <h3>email:</h3><h5 id="displayEmail">none</h5>
           <h3>Verified:</h3><h5 id="status">none</h5>
-      </div> -->
+      </div>
     </section>
   </body>
   <script type="module">
@@ -101,7 +109,7 @@
           })
         console.log(userCredential);
       // Signed up 
-      const user = userCredential.user;
+      const user = userCredential.User;
 
       alert("user created!");
       // ...
@@ -115,31 +123,33 @@
   
     });
 
-    
+    var dspEmail = document.getElementById("displayEmail");
+    var status = document.getElementById("status");
 
 
     login.addEventListener('click', (e) => {
 
-      var email = document.getElementById('email').value;
-      var password = document.getElementById('password').value;
+      var email = document.getElementById('email1').value;
+      var password = document.getElementById('password1').value;
   
       signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
       // Signed in 
-        alert('User loggedin!')
+        
       const user = userCredential.user;
         console.log(user);
 
-        displayEmail.textcontent = user.email;
-        status = textcontent = user.emailVerified;
-    
+        dspEmail.textcontent = user.email;
+        status.textcontent = user.emailVerified;
+        
+        alert('User loggedin!')
     })
 
       
      .catch((error) => {
       const errorCode = error.code;
       const errorMessage = error.message;
-      alert('User Logged In')
+      alert(errorMessage);
      
       // ...
     })
