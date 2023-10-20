@@ -1,0 +1,52 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+  }
+  
+  body {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f0faff;
+  }
+  
+/* Style the button */
+.button {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 18px;
+    background-color: #0074D9;
+    color: #fff;
+    text-decoration: none; /* Remove underline by default on anchor tags */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    margin-right: 50px;
+  }
+  
+  .button:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Style the button1 */
+  .button1 {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 18px;
+    background-color: #0074D9;
+    color: #fff;
+    text-decoration: none; /* Remove underline by default on anchor tags */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    /* margin-right: 200px; */
+  }
+  
+  .button1:hover {
+    background-color: #0056b3;
+  }

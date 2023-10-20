@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Graph</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <canvas id="userCountChart"></canvas>
+    <!-- <a href="index.html" class="button">Login/Signup</a> -->
+</body>
+<script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
+    import { getDatabase, set, ref, update, } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
+    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendEmailVerification } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js";
+
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+  
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyAxDiiZzecf-x9JcLsxSu6_zCimOOcMiro",
+      authDomain: "aarthinew-2aa7f.firebaseapp.com",
+      databaseURL: "https://aarthinew-2aa7f-default-rtdb.firebaseio.com",
+      projectId: "aarthinew-2aa7f",
+      storageBucket: "aarthinew-2aa7f.appspot.com",
+      messagingSenderId: "47934433889",
+      appId: "1:47934433889:web:d309fbb8e4cba978fed820"
+    };
+  
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const database = getDatabase(app);
+    const auth = getAuth();
+
+    const ctx = document.getElementById("userCountChart").getContext("2d");
+
+    const userCountChart = new Chart(ctx, {
+        type: "line",
+        data: {
+        labels: [],
+        datasets: [{
+        label: "User Count",
+        data: [],
+        backgroundColor: "rgba(75, 192, 192, 0.2)",
+        borderColor: "rgba(75, 192, 192, 1)",
+        borderWidth: 1
+    }]
+  },
+  options: {
+    responsive: true,
+    scales: {
+      x: [{
+        type: "linear",
+        position: "bottom"
+      }]
+    }
+  }
+});
+
+// Function to update the chart
+  function updateChart() {
+    const usersRef =ref(database, "users");
+
+  userCountRef.on("value", (snapshot) => {
+    const data = snapshot.val();
+    const labels = Object.keys(data);
+    const counts = Object.values(data);
+
+    userCountChart.data.labels = labels;
+    userCountChart.data.datasets[0].data = counts;
+    userCountChart.update();
+  });
+}
+
+updateChart(); // Call the updateChart function to initially populate the chart
+
+// You can also update the chart at regular intervals, e.g., every minute
+// setInterval(updateChart, 60000); // 60000 milliseconds = 1 minute
+
+</script>
+</html>
