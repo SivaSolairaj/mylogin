@@ -3,13 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Graph</title>
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css" />
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- <iframe src="index.html"></iframe> -->
     
 </head>
 <body>
-  <input type="submit" id="login" name="login" value="Login" />
-  <canvas id="userLoginChart" width="400" height="200"></canvas>
+  <canvas id="userSignupChart" width="400" height="200"></canvas>
 </body>
 <script type="module">
     // Import the functions you need from the SDKs you need
@@ -36,33 +37,43 @@
     const database = getDatabase(app);
     const auth = getAuth();
 
-    // After the other JavaScript code, add the following code:
-
-// Get the canvas element and create a chart context
-const chartCanvas = document.getElementById('userLoginChart');
-const chartContext = chartCanvas.getContext('2d');
-
-// Create an empty data array and labels for the chart
-const chartData = {
-  labels: [], // Array to store labels (e.g., time)
-  datasets: [
-    {
-      label: 'Login Count',
-      data: [], // Array to store the number of logins
-      fill: true,
-      borderColor: 'rgba(75, 192, 192, 1)',
-      tension: 0.1,
-    },
-  ],
+    // Sample data for the bar chart
+const userData = {
+  1: 1,
+  2: 2,
+  3: 0,
+  4: 0,
+  5: 0,
+  6: 0,
+  7: 0,
+  8: 1,
+  9: 2,
+  10: 5,
+  11: 9,
+  12: 4
 };
 
-// Create a new Chart using Chart.js
-const userLoginChart = new Chart(chartContext, {
-  type: 'line',
-  data: chartData,
+// Get the canvas element
+const userSignupChart = document.getElementById('userSignupChart').getContext('2d');
+
+// Create the bar chart
+new Chart(userSignupChart, {
+  type: 'bar',
+  data: {
+    labels: Object.keys(userData),
+    datasets: [
+      {
+        label: 'User Signups',
+        data: Object.values(userData),
+        backgroundColor: 'rgba(75, 192, 192, 0.6)',
+        borderColor: 'rgba(75, 192, 192, 1)',
+        borderWidth: 1,
+      },
+    ],
+  },
   options: {
     scales: {
-      x: {
+       x: {
         display: true,
         title: {
           display: true,
@@ -70,7 +81,7 @@ const userLoginChart = new Chart(chartContext, {
         },
       },
       y: {
-        display: true,
+        beginAtZero: true,
         title: {
           display: true,
           text: 'Login Count',
@@ -78,45 +89,6 @@ const userLoginChart = new Chart(chartContext, {
       },
     },
   },
-});
-
-// Function to update the chart
-function updateChart(loginCount) {
-  const timeNow = new Date().toLocaleTimeString(); // Get the current time
-  userLoginChart.data.labels.push(timeNow); // Add the time as a label
-  userLoginChart.data.datasets[0].data.push(loginCount); // Add the login count
-  userLoginChart.update(); // Update the chart
-}
-
-// Call the updateChart function when a user logs in
-login.addEventListener('click', (e) => {
-  var email = document.getElementById('email1').value;
-  var password = document.getElementById('password1').value;
-
-  signInWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      // Signed in
-      const user = userCredential.user;
-      console.log(user);
-
-      const dt = new Date();
-      update(ref(database, 'users/' + user.uid), {
-        last_login: dt,
-      });
-
-      dspEmail.textContent = user.email;
-      status.textContent = user.emailVerified;
-      
-      // Call the updateChart function to update the chart with the new login
-      updateChart(userLoginChart.data.datasets[0].data.length);
-      
-      alert('User logged in!');
-    })
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      alert(errorMessage);
-    });
 });
 
 
